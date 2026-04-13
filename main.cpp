@@ -19,6 +19,7 @@ void find_goat(list<Goat> &trip);
 void count_young_goats(list<Goat> &trip);
 void remove_young_goats(list<Goat> &trip);
 void find_youngest_goat(list<Goat> &trip);
+void find_oldest_goat(list<Goat> &trip);
 int main_menu();
 
 int main() {
@@ -52,7 +53,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 10) {
+    while (sel != 11) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -90,6 +91,10 @@ int main() {
                 cout << "Finding youngest goat.\n";
                 find_youngest_goat(trip);
                 break;
+            case 10:
+                cout << "Finding oldest goat.\n";
+                find_oldest_goat(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -112,11 +117,12 @@ int main_menu() {
     cout << "[7] Count young goats (age < 5)\n";
     cout << "[8] Remove young goats (age < 5)\n";
     cout << "[9] Find youngest goat\n";
-    cout << "[10] Quit\n";
+    cout << "[10] Find oldest goat\n";
+    cout << "[11] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 10) {
+    while (choice < 1 || choice > 11) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -237,7 +243,7 @@ void remove_young_goats(list<Goat> &trip) {
     cout << "New trip size: " << trip.size() << endl;
 }
 
-void find_youngest_goat(list<Goat> &trip) {
+void find_youngest_goat(list<Goat>& trip) {
     cout << "Find youngest goat\n";
 
     if (trip.empty()) {
@@ -246,7 +252,7 @@ void find_youngest_goat(list<Goat> &trip) {
     }
 
     auto youngest = min_element(trip.begin(), trip.end(),
-        [](const Goat &a, const Goat &b) {
+        [](const Goat& a, const Goat& b) {
             return a.get_age() < b.get_age();
         });
 
@@ -254,4 +260,23 @@ void find_youngest_goat(list<Goat> &trip) {
     cout << youngest->get_name()
          << " (" << youngest->get_age()
          << ", " << youngest->get_color() << ")\n";
+}
+
+void find_oldest_goat(list<Goat>& trip) {
+    cout << "Find oldest goat\n";
+
+    if (trip.empty()) {
+        cout << "No goats in the trip.\n";
+        return;
+    }
+
+    auto oldest = max_element(trip.begin(), trip.end(),
+        [](const Goat& a, const Goat& b) {
+            return a.get_age() < b.get_age();
+        });
+
+    cout << "Oldest goat:\n";
+    cout << oldest->get_name()
+         << " (" << oldest->get_age()
+         << ", " << oldest->get_color() << ")\n";
 }
