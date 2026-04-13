@@ -16,6 +16,7 @@ void display_trip(list<Goat> trip);
 void sort_goats(list<Goat> &trip);
 void reverse_goats(list<Goat> &trip);
 void find_goat(list<Goat> &trip);
+void count_young_goats(list<Goat> &trip);
 int main_menu();
 
 int main() {
@@ -49,7 +50,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 7) {
+    while (sel != 8) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -75,6 +76,10 @@ int main() {
                 cout << "Finding a goat.\n";
                 find_goat(trip);
                 break;
+            case 7:
+                cout << "Counting young goats.\n";
+                count_young_goats(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -94,11 +99,12 @@ int main_menu() {
     cout << "[4] Sort goats by name\n";
     cout << "[5] Reverse goats\n";
     cout << "[6] Find goat by name\n";
-    cout << "[7] Quit\n";
+    cout << "[7] Count young goats (age < 5)\n";
+    cout << "[8] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 7) {
+    while (choice < 1 || choice > 8) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -178,7 +184,7 @@ void find_goat(list<Goat> &trip) {
     getline(cin, target) ;
 
     auto it = find_if(trip.begin(), trip.end(),
-        [target](const Goat &foundGoat) {
+        [target](const Goat& foundGoat) {
             return foundGoat.get_name() == target;
         });
 
@@ -190,4 +196,15 @@ void find_goat(list<Goat> &trip) {
     } else {
         cout << "Goat not found.\n";
     }
+}
+
+void count_young_goats(list<Goat> &trip) {
+    cout << "COUNT YOUNG GOATS (age < 5)\n";
+
+    int count = count_if(trip.begin(), trip.end(),
+        [](const Goat& youngGoat) {
+            return youngGoat.get_age() < 5;
+        });
+
+    cout << "Number of young goats: " << count << '\n';
 }
