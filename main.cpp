@@ -20,6 +20,7 @@ void count_young_goats(list<Goat> &trip);
 void remove_young_goats(list<Goat> &trip);
 void find_youngest_goat(list<Goat> &trip);
 void find_oldest_goat(list<Goat> &trip);
+void sort_goats_by_age(list<Goat> &trip);
 int main_menu();
 
 int main() {
@@ -53,7 +54,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 11) {
+    while (sel != 12) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -95,6 +96,10 @@ int main() {
                 cout << "Finding oldest goat.\n";
                 find_oldest_goat(trip);
                 break;
+            case 11:
+                cout << "Sorting goats by age.\n";
+                sort_goats_by_age(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -102,7 +107,6 @@ int main() {
         sel = main_menu();
     }
     
-
     return 0;
 }
 
@@ -118,11 +122,12 @@ int main_menu() {
     cout << "[8] Remove young goats (age < 5)\n";
     cout << "[9] Find youngest goat\n";
     cout << "[10] Find oldest goat\n";
-    cout << "[11] Quit\n";
+    cout << "[11] Sort goats by age\n";
+    cout << "[12] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 11) {
+    while (choice < 1 || choice > 12) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -216,6 +221,7 @@ void find_goat(list<Goat> &trip) {
     }
 }
 
+// Count goats with age < 5
 void count_young_goats(list<Goat> &trip) {
     cout << "COUNT YOUNG GOATS (age < 5)\n";
 
@@ -227,6 +233,7 @@ void count_young_goats(list<Goat> &trip) {
     cout << "Number of young goats: " << count << '\n';
 }
 
+// Remove goats with age < 5
 void remove_young_goats(list<Goat> &trip) {
     cout << "Removing young goats (age < 5)\n";
 
@@ -243,6 +250,7 @@ void remove_young_goats(list<Goat> &trip) {
     cout << "New trip size: " << trip.size() << endl;
 }
 
+// Find youngest goat
 void find_youngest_goat(list<Goat>& trip) {
     cout << "Find youngest goat\n";
 
@@ -262,6 +270,7 @@ void find_youngest_goat(list<Goat>& trip) {
          << ", " << youngest->get_color() << ")\n";
 }
 
+// Find oldest goat
 void find_oldest_goat(list<Goat>& trip) {
     cout << "Find oldest goat\n";
 
@@ -279,4 +288,19 @@ void find_oldest_goat(list<Goat>& trip) {
     cout << oldest->get_name()
          << " (" << oldest->get_age()
          << ", " << oldest->get_color() << ")\n";
+}
+
+// Sort goats by age
+void sort_goats_by_age(list<Goat> &trip) {
+    cout << "Sort goats by age\n";
+
+    cout << "Before sort:\n";
+    display_trip(trip);
+
+    trip.sort([](const Goat& a, const Goat& b) {
+        return a.get_age() < b.get_age();
+    });
+
+    cout << "\nAfter sort:\n";
+    display_trip(trip);
 }
