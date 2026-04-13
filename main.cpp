@@ -18,6 +18,7 @@ void reverse_goats(list<Goat> &trip);
 void find_goat(list<Goat> &trip);
 void count_young_goats(list<Goat> &trip);
 void remove_young_goats(list<Goat> &trip);
+void find_youngest_goat(list<Goat> &trip);
 int main_menu();
 
 int main() {
@@ -51,7 +52,7 @@ int main() {
     
     // Goat Manager 3001 Engine
     int sel = main_menu();
-    while (sel != 9) {
+    while (sel != 10) {
         switch (sel) {
             case 1:
                 cout << "Adding a goat.\n";
@@ -85,6 +86,10 @@ int main() {
                 cout << "Removing young goats.\n";
                 remove_young_goats(trip);
                 break;
+            case 9:
+                cout << "Finding youngest goat.\n";
+                find_youngest_goat(trip);
+                break;
             default:
                 cout << "Invalid selection.\n";
                 break;
@@ -106,11 +111,12 @@ int main_menu() {
     cout << "[6] Find goat by name\n";
     cout << "[7] Count young goats (age < 5)\n";
     cout << "[8] Remove young goats (age < 5)\n";
-    cout << "[9] Quit\n";
+    cout << "[9] Find youngest goat\n";
+    cout << "[10] Quit\n";
     cout << "Choice --> ";
     int choice;
     cin >> choice;
-    while (choice < 1 || choice > 9) {
+    while (choice < 1 || choice > 10) {
         cout << "Invalid, again --> ";
         cin >> choice;
     }
@@ -229,4 +235,23 @@ void remove_young_goats(list<Goat> &trip) {
     display_trip(trip);
 
     cout << "New trip size: " << trip.size() << endl;
+}
+
+void find_youngest_goat(list<Goat> &trip) {
+    cout << "Find youngest goat\n";
+
+    if (trip.empty()) {
+        cout << "No goats in the trip.\n";
+        return;
+    }
+
+    auto youngest = min_element(trip.begin(), trip.end(),
+        [](const Goat &a, const Goat &b) {
+            return a.get_age() < b.get_age();
+        });
+
+    cout << "Youngest goat:\n";
+    cout << youngest->get_name()
+         << " (" << youngest->get_age()
+         << ", " << youngest->get_color() << ")\n";
 }
